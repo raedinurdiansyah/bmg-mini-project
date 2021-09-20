@@ -1,0 +1,72 @@
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v2.4.0
+      hooks:
+        - id: trailing-whitespace
+          name: Trim trailing whitespace
+          description: This hook trims trailing whitespace.
+          entry: trailing-whitespace-fixer
+          language: python
+          types: [text]
+          stages: [commit, push, manual]
+        - id: end-of-file-fixer
+          name: Fix end of files
+          description: Ensures that a file is either empty, or ends with one newline.
+          entry: end-of-file-fixer
+          language: python
+          types: [text]
+          stages: [commit, push, manual]
+        - id: flake8
+          name: Flake8
+          description: This hook runs flake8.
+          entry: flake8
+          language: python
+          types: [python]
+          require_serial: true
+          args: [ '--max-line-length=88', '--ignore=B902,W503' ]
+        - id: detect-private-key
+          name: Detect private key
+          description: Detects the presence of private keys
+          entry: detect-private-key
+          language: python
+          types: [text]
+        - id: no-commit-to-branch
+          args: [--branch, master, --branch, main]
+          name: "Don't commit to branch"
+          entry: no-commit-to-branch
+          language: python
+          pass_filenames: false
+          always_run: true
+        - id: check-merge-conflict
+          name: Check for merge conflicts
+          description: Check for files that contain merge conflict strings.
+          entry: check-merge-conflict
+          language: python
+          types: [text]
+
+    - repo: https://github.com/asottile/seed-isort-config
+      rev: v2.2.0
+      hooks:
+        - id: seed-isort-config
+
+    - repo: https://github.com/psf/black
+      rev: 21.5b1
+      hooks:
+        - id: black
+          name: black
+          description: 'Black: The uncompromising Python code formatter'
+          entry: black
+          language: python
+          language_version: python3
+          require_serial: true
+          types: [python]
+
+    - repo: https://github.com/pycqa/isort
+      rev: 5.8.0
+      hooks:
+        - id: isort
+          name: isort (python)
+          description: "Sort python imports"
+          language: python
+          language_version: python3
+          types: [python]

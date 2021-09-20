@@ -1,0 +1,40 @@
+version: '3.6'
+
+volumes:
+  bmg_db:
+
+networks:
+  default:
+    name: 'bmg_network'
+
+services:
+  db:
+    restart: always
+    image: postgres:11-alpine
+    container_name: bmg_db
+    environment:
+      - POSTGRES_USER=bmg
+      - POSTGRES_DB=bmg
+      - POSTGRES_PASSWORD=password
+    ports:
+      - 5432:5432
+    volumes:
+      - bmg_db:/var/lib/postgresql/data/
+
+  # db_test:
+  #   image: postgres:11-alpine
+  #   container_name: bmg_db_test
+  #   environment:
+      # - POSTGRES_USER=${DB_USER:-bmgadmin}
+      # - POSTGRES_DB=${DB_NAME:-bmg_db}
+      # - POSTGRES_PASSWORD=${DB_NAME:-bmgadmin}
+  #     - POSTGRES_HOST_AUTH_METHOD=trust
+  #   ports:
+  #     - 5567:5566
+
+
+  redis:
+      image: redis:alpine3.10
+      container_name: bmg_redis
+      ports:
+        - 6380:6380
